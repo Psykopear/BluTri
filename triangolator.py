@@ -6,9 +6,6 @@
 
 import os
 import time
-#Random serve solo per provare perche non ho bluetooth
-import random
-from random import randint
 
 def triangolator() :
  MACS = ["10:BF:48:EA:6A:E2"]
@@ -17,17 +14,14 @@ def triangolator() :
  direzione = 0
  while notarrived:
   for i in MACS:
-   x = randint(-256,50)
-#vedi anche "rfcomm connect 0 <MAC> <CHANNEL>" per connettersi, forse meglio di hcitool
-#e riconnettere solo in caso non sia piu connesso
-   #os.system("hcitool cc "+i)
-   time.sleep(0.1)
-   #x = os.system("hcitool rssi "+i+" 2> /dev/null") 
-   #if x != 256:
-   # x = x.split(': ')[1]
-   #else:
-   # x = -256
-   #os.system("hcitool dc "+i)
+   os.system("hcitool cc "+i)
+   time.sleep(1)
+   x = os.system("hcitool rssi "+i+" 2> /dev/null") 
+   if x != 256:
+    x = x.split(': ')[1]
+   else:
+    x = -256
+   os.system("hcitool dc "+i)
    RSSI.append(x)
   if len(RSSI) > 5:
    RSSI.pop(0)
@@ -77,13 +71,6 @@ def muoviInDirezione(ar, direzione):
   print "Ti stai allontanando dal device, cambio direzione..."
   print "Muovi in direzione "+`(direzione+1)%8`
   return (direzione + 1)%8
-
-
-
- 
-#CAMBIOFILE
- 
- 
  
 
 triangolator()
