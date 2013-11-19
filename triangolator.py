@@ -41,19 +41,18 @@ def triangolator() :
  notarrived = True
  direzione = 0
  while notarrived:
-  for i in MACS:
-#vedi anche "rfcomm connect 0 <MAC> <CHANNEL>" per connettersi, forse meglio di hcitool
-#e riconnettere solo in caso non sia piu connesso
-   subprocess.check_output(["hcitool", "cc", i])
+  i = MACS[0]
+  time.sleep(0.1)
+  try:
    x = subprocess.check_output(["hcitool", "rssi", i])
-   x = int(x.split(": ")[1].strip())
-   print x
-   if x == 256:
-    x = -x 
-   subprocess.check_output(["hcitool", "dc", i])
-   RSSI.append(x)
-  if len(RSSI) > 2:
-   RSSI.pop()
+  except:
+   subprocess.call(["rfcomm", "connect", "0", MACS[0], "10"])
+   x = subprocess.check_output(["hcitool", "rssi", i])
+  x = int(x.split(": ")[1].strip())
+  if x == 256:
+   x = -x 
+  RSSI.append(x)
+  if len(RSSI) >= 2:
    direzione = muoviInDirezione(RSSI, direzione)
    RSSI = []
    if direzione == 8:
@@ -94,11 +93,7 @@ def muoviInDirezione(ar, direzione):
   j = j+1
  xcoord = punti[-1][0] + modifier[direzione][0]
  ycoord = punti[-1][1] + modifier[direzione][1]
-# for i in punti:
-#   if i[0] == xcoord and i[1] == ycoord:
-#    return direzione
  if avv1 >= all1:
-  print dev
   print "Ti stai avvicinando al device"
   punti.append([xcoord,ycoord,punti[-1][2]+1])
   print punti
