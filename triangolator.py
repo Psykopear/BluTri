@@ -4,12 +4,12 @@
 #su 0 per un tot di misurazioni consecutive significa che
 #ci si e avvicinati
 
-import os
-import time
-#Random serve solo per provare perche non ho bluetooth
-import random
-from random import randint
+#EDIT: Fuckit, un dispositivo potrebbe bastare
 
+import subprocess
+import time
+
+#Questa matrice e' inutile, ma e' molto carina
 matrice = [
 
 [-4 ,-4 ,-4 ,-4 ,-4 ,-4 ,-4 ,-4 ,-4 ,-4 ],
@@ -35,26 +35,25 @@ punti=[ [0,0,0] ]
 modifier = { 0 : (1,0), 1 : (1,1), 2 : (0,1), 3 : (-1,1), 4 : (-1,0), 5 : (-1,-1), 6 : (0,-1), 7 : (1,-1) }
 
 def triangolator() :
- MACS = ["10:BF:48:EA:6A:E2"]
+ #MACS = ["BC:F5:AC:4F:02:E7"]
+ MACS = ["A8:92:2C:4D:28:AF"]
  RSSI = []
  notarrived = True
  direzione = 0
  while notarrived:
   for i in MACS:
-   x = randint(-256,250)
 #vedi anche "rfcomm connect 0 <MAC> <CHANNEL>" per connettersi, forse meglio di hcitool
 #e riconnettere solo in caso non sia piu connesso
-   #os.system("hcitool cc "+i)
-   time.sleep(0.1)
-   #x = os.system("hcitool rssi "+i+" 2> /dev/null") 
-   #if x != 256:
-   # x = x.split(': ')[1]
-   #else:
-   # x = -256
-   #os.system("hcitool dc "+i)
+   subprocess.check_output(["hcitool", "cc", i])
+   x = subprocess.check_output(["hcitool", "rssi", i])
+   x = int(x.split(": ")[1].strip())
+   print x
+   if x == 256:
+    x = -x 
+   subprocess.check_output(["hcitool", "dc", i])
    RSSI.append(x)
-  if len(RSSI) > 5:
-   RSSI.pop(0)
+  if len(RSSI) > 2:
+   RSSI.pop()
    direzione = muoviInDirezione(RSSI, direzione)
    RSSI = []
    if direzione == 8:
@@ -74,6 +73,7 @@ def muoviInDirezione(ar, direzione):
 # 6 = S (0,-1)
 # 7 = SE (+1,-1)
 # 8 = ARRIVATI
+ print ar
  arrived = True
  for i in ar:
   if i < 0:
@@ -97,12 +97,13 @@ def muoviInDirezione(ar, direzione):
 # for i in punti:
 #   if i[0] == xcoord and i[1] == ycoord:
 #    return direzione
- if avv1 > all1:
+ if avv1 >= all1:
   print dev
   print "Ti stai avvicinando al device"
   punti.append([xcoord,ycoord,punti[-1][2]+1])
   print punti
   print "Muovi in direzione "+`direzione`
+  raw_input("Wait for enter")
   return direzione
  else:
   direzione = (direzione + 2) % 8
@@ -117,6 +118,7 @@ def muoviInDirezione(ar, direzione):
   print punti
   print "Ti stai allontanando dal device, cambio direzione..."
   print "Muovi in direzione "+`direzione`
+  raw_input("Wait for enter")
   return direzione
 
 triangolator()
