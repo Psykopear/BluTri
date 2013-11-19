@@ -1,0 +1,20 @@
+Creare algoritmo che riempie una matrice, dati 
+-Dimensione
+-Posizione Drone
+-Posizione Arrivo
+Dove in ogni posizione c'è un numero che indica la distanza
+fra Drone e Arrivo.
+
+Sviluppare l'algoritmo di ricerca nel "mondo" rappresentato dalla 
+matrice.
+Valutare l'uso di diversi algoritmi a seconda della distanza, e precisione
+richiesta.
+Guardare A*
+
+Dividere il progetto in più file.
+
+Il Drone non ha alcuna conoscenza del mondo, eccetto la distanza
+dal punto di arrivo
+
+Per la struttura dati per rappresentare il mondo vedere
+esempio aspirapolvere

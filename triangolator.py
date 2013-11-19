@@ -1,10 +1,3 @@
-#IDEA: Dati tre dispositivi messi in triangolo, che restituiscono 0
-#quando si e abbastanza vicini, e valori negativi il resto del tempo,
-#si misurano le intensita di tutti e tre, e quando tutte rimangono
-#su 0 per un tot di misurazioni consecutive significa che
-#ci si e avvicinati
-
-#EDIT: Fuckit, un dispositivo potrebbe bastare
 
 import subprocess
 import time
@@ -35,8 +28,8 @@ punti=[ [0,0,0] ]
 modifier = { 0 : (1,0), 1 : (1,1), 2 : (0,1), 3 : (-1,1), 4 : (-1,0), 5 : (-1,-1), 6 : (0,-1), 7 : (1,-1) }
 
 def triangolator() :
- #MACS = ["BC:F5:AC:4F:02:E7"]
- MACS = ["A8:92:2C:4D:28:AF"]
+ MACS = ["BC:F5:AC:4F:02:E7"]
+ #MACS = ["A8:92:2C:4D:28:AF"]
  RSSI = []
  notarrived = True
  direzione = 0
