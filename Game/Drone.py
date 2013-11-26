@@ -1,17 +1,23 @@
-__author__ = 'psykopear'
+from matrix_generator import print_matrix
+
 
 class Drone:
-    def __init__(self,world,x,y):
-        kb = [world][(x,y)]
-        __position__ = (x, y)
-        fuel = 0
+    def __init__(self, world_size, x, y):
+        self.kb = self.generate_kb(world_size)
+        self.actual_position = (x, y)
+        self.fuel = 0
 
-    def move(self,x,y):
-        self.position = (x,y)
+    def generate_kb(self, world_size):
+        return [[0 for i in range(world_size)] for j in range(world_size)]
 
-    def strategy():
-        return
+    def move(self, x, y):
+        self.actual_position = (x, y)
 
-    def probe():
-        return
+    def strategy(self):
+        pass
 
+    def print_world(self):
+        print_matrix(self.kb)
+
+    def probe(self, distance):
+        self.kb[self.actual_position[0]][self.actual_position[1]] = distance

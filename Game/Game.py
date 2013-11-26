@@ -1,12 +1,11 @@
-import matrixGenerator
-from matrixGenerator import *
-
 class Game:
-    def __init__(self,size,x1,y1,x2,y2):
+    def __init__(self, world, drones):
+        self.world = world
+        self.drones = drones
 
-        world = world_generator(size,[x1,y1],[x2,y2])
-       # drones = [Drone(world,x1,y1)]
+    def start_game(self):
+        for drone in self.drones:
+            drone.probe(self.world[drone.actual_position[0]][drone.actual_position[1]])
+            drone.print_world()
 
-    def generate_kb(self, world,x,y):
-        return (x,y)
-
+        return
