@@ -13,8 +13,9 @@ def matrix_generator(size, startPoint, arrivePoint):
  return matrix
 
 
-def print_matrix(matrix, size):
- for i in range(size):
-  for j in range(size):
-   print "[",matrix[i][j][1],"]",
+def print_matrix(matrix):
+ size = len(matrix[0])
+ for j in range(size):
+  for i in range(size):
+   print "",matrix[i][j][1],
   print
